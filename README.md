@@ -13,6 +13,6 @@ Thermistor modeling:
 
 LV battery sizing:
 ![per26_lv_loads](figures/per26_lv_loads.png)
-- Runtime: 60.95 minute
-- Sustained Total Current: 15.79 A
-- Endurance factor of safety: 1.91
+- Runtime: 61.47 minute
+- Sustained Total Power: 394.50 W
+- Endurance factor of safety: 1.92

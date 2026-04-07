@@ -41,64 +41,63 @@ const board_voltage = 5u"V"
 const num_boards = 8
 board_power_5V = single_board_current * board_voltage * num_boards # W
 # account for buck energy loss
-boards_power_from_pack = board_power_5V / LM53603_efficiency_coeff
-boards_pack_current = boards_power_from_pack / batt_voltage
+boards_pack_power = board_power_5V / LM53603_efficiency_coeff
 
 # Fan loading
 const fan_currents_24V = [
+    # benchtop current measurement off a 24V supply (fans pairs tied together)
     0, 0.11, 0.154, 0.2, 0.26, 0.325,     # 0 - 25% duty
     0.404, 0.5, 0.606, 0.733, 0.891,      # 30 - 50% duty
     1.035, 1.226, 1.41, 1.58, 1.806,      # 55 - 75% duty
     2.02, 2.225, 2.47, 2.515, 2.52        # 80 - 100% duty
-] # benchtop measurement off a 24V supply (fans pairs tied together)
-# scale the power load to the battery voltage
-fan_currents = fan_currents_24V .* (24u"V" / batt_voltage)
+] .* 1u"A"
 const avg_fan_duty_cycle = 0.70
 idx = round(Int, avg_fan_duty_cycle * 100 / 5) + 1
-scaled_fan_current = fan_currents[idx] * u"A"
+fan_power_24V = fan_currents_24V[idx] * 24u"V" # W per pair
 const num_fans = 5
-fans_pack_current = scaled_fan_current * num_fans
+fans_pack_power = fan_power_24V * num_fans
 
 # Pump loading
 const avg_pump_duty_cycle = 1.00
-const pump_current_25V = 3u"A" # todo: characterize pumps
+const pump_power_25V = 3u"A" * 25u"V" # todo: characterize pumps
 const num_pumps = 2
-pumps_pack_current = pump_current_25V * num_pumps * avg_pump_duty_cycle
+pumps_pack_power = pump_power_25V * num_pumps * avg_pump_duty_cycle
 
 # AMK inverter loading
-const avg_inverter_current_24V = 0.45u"A"  # benchtop measurement
+const avg_inverter_power_24V = 0.45u"A" * 24u"V" # benchtop measurement
 const num_inverters = 4
-inverters_pack_current = avg_inverter_current_24V * num_inverters
+inverters_pack_power = avg_inverter_power_24V * num_inverters
 
 # Add up active loads
-active_pack_current = boards_pack_current + fans_pack_current + pumps_pack_current + inverters_pack_current
+active_pack_power = boards_pack_power + fans_pack_power + pumps_pack_power + inverters_pack_power
 
-# Add loss due to internal resistance @ total_pack_current
-internal_power_loss = active_pack_current^2 * batt_internal_R
-internal_power_loss_equiv_current = internal_power_loss / batt_voltage
-total_pack_current = active_pack_current + internal_power_loss_equiv_current
+# Add loss due to internal resistance @ nominal voltage
+# I_nominal = P_active / V_nominal
+active_pack_current_nominal = active_pack_power / batt_voltage
+internal_power_loss = active_pack_current_nominal^2 * batt_internal_R
+total_pack_power = active_pack_power + internal_power_loss
 
 # Calc runtime
-runtime = uconvert(u"minute", batt_capacity / total_pack_current)
+runtime = uconvert(u"minute", batt_energy / total_pack_power)
 @printf("Runtime: %.2f\n", runtime)
-@printf("Sustained Total Current: %.2f\n", total_pack_current)
+@printf("Sustained Total Power: %.2f\n", total_pack_power)
 
 # Endurance factor of safety
 endurance_fos = runtime / total_endurance_time
 @printf("Endurance factor of safety: %.2f\n", endurance_fos)
 
 # Plot the load pie chart
-labels = ["Boards", "Fans", "Pumps", "Inverter LV", "Internal Loss (equiv)"]
+labels = ["Boards", "Fans", "Pumps", "Inverter LV", "Internal Loss"]
 values = [
-    ustrip(u"A", boards_pack_current),
-    ustrip(u"A", fans_pack_current),
-    ustrip(u"A", pumps_pack_current),
-    ustrip(u"A", inverters_pack_current),
-    ustrip(u"A", internal_power_loss_equiv_current)
+    ustrip(u"W", boards_pack_power),
+    ustrip(u"W", fans_pack_power),
+    ustrip(u"W", pumps_pack_power),
+    ustrip(u"W", inverters_pack_power),
+    ustrip(u"W", internal_power_loss)
 ]
 # @show labels, values
 p = pie(labels, values, dpi=300)
-title!(p, @sprintf("Projected PER26 LV Current Loads @%ds%dp", s_count, p_count))
+title!(p, @sprintf("Projected PER26 LV Power Loads @%ds%dp", s_count, p_count))
 
 savefig("figures/per26_lv_loads.png")
 
