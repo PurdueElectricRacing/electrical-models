@@ -1,5 +1,14 @@
-# electronics-models
+# PER Electrical Modeling
 
+## Directory Structure
+- `battery/`: Battery sizing and performance
+- `circuits/`: Models of complete circuits
+- `components/`: Models of individual components/sensors
+- `datasets/`: Raw data from bench testing and datasheets in xlsx/csv format
+- `figures/`: Plots and images generated from the models
+- `signals/`: Filtering and signal generation simulations
+
+## Results
 We used the isoSPI model to catch a bug in our filtering circuit:
 ![isoSPI](figures/isoSPI_bad_RC.png)
 
@@ -9,7 +18,7 @@ SDC Latch when Preset RC Time constant is too small:
 ![SDCLatchIncorrect](figures/OpenCircuitFF3.jpg)
 
 Thermistor modeling:
-![thermistor_plot](figures/thermistor_plot.png)
+![thermistor_plot](figures/B57861S0103_thermistor.png)
 
 LV battery sizing:
 ![per26_lv_loads](figures/per26_lv_loads.png)

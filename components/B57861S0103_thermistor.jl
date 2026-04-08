@@ -42,7 +42,7 @@ title!(p, "B57861S0103A039\n Resistance vs Temperature (R25=10k, B=3988K)")
 plot!(T_C, RT, marker=:circle, label="Derived from datasheet")
 plot!(T_C_dense, R_beta; lw=2, label="Beta model")
 
-savefig("plot.png")
+savefig("figures/B57861S0103_thermistor.png")
 
 gui()
 readline()
