@@ -3,7 +3,7 @@
 ## Directory Structure
 - `battery/`: Battery sizing and performance
 - `circuits/`: Models of complete circuits
-- `components/`: Models of individual components/sensors
+- `components/`: Data-driven or physics-based models of individual components/sensors
 - `datasets/`: Raw data from bench testing and datasheets in xlsx/csv format
 - `figures/`: Plots and images generated from the models
 - `signals/`: Filtering and signal generation simulations
@@ -22,6 +22,6 @@ Thermistor modeling:
 
 LV battery sizing:
 ![per26_lv_loads](figures/per26_lv_loads.png)
-- Runtime: 61.47 minute
-- Sustained Total Power: 394.50 W
-- Endurance factor of safety: 1.92
+- Runtime: 53.99 minute
+- Sustained Total Power: 449.16 W
+- Endurance factor of safety: 1.69
