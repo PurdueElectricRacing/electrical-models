@@ -8,21 +8,35 @@
 - `figures/`: Plots and images generated from the models
 - `signals/`: Filtering and signal generation simulations
 
-## Results
+# Results
+## SDC Simulation
+RELAY_CTRL = LOW -> SDC open:
+![spice](figures/SDC/SPICE.png)
+
+No Faults:
+![nominal](figures/SDC/no_fault.png)
+
+Open Circuit:
+![open_circuit](figures/SDC/open_circuit.png)
+
+Single Fault:
+![single_fault](figures/SDC/single_fault.png)
+
+Multiple Faults:
+![multiple_faults](figures/SDC/multi_fault.png)
+
+## Signal Filtering
 We used the isoSPI model to catch a bug in our filtering circuit:
 ![isoSPI](figures/isoSPI_bad_RC.png)
 
+## Battery Sizing
 LV battery sizing:
 ![per26_lv_loads](figures/per26_lv_loads.png)
 Runtime: 53.70 minute
 Sustained Total Power: 451.60 W
 Endurance factor of safety: 1.68
 
-SDC Latch Simulation for open circuit detection:
-![SDCLatchCorrect](figures/OpenCircuitFF1.jpg)
-SDC Latch when Preset RC Time constant is too small:
-![SDCLatchIncorrect](figures/OpenCircuitFF3.jpg)
-
+## Sensor Modeling
 Thermistor modeling:
 ![thermistor_plot](figures/B57861S0103_thermistor.png)
 
