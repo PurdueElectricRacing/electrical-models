@@ -25,6 +25,10 @@ Single Fault:
 Multiple Faults:
 ![multiple_faults](figures/SDC/multi_fault.png)
 
+## Reverse Polarity
+![spice](figures/rp_SPICE.png)
+![reverse_polarity](figures/reverse_polarity.png)
+
 ## Signal Filtering
 We used the isoSPI model to catch a bug in our filtering circuit:
 ![isoSPI](figures/isoSPI_bad_RC.png)
