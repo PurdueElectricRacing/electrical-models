@@ -1,5 +1,5 @@
 #=
-# lv_battery.jl
+# lvbatt26.jl
 # First-order rough LV batt sizing calcs
 # Author: Irving Wang (irvingw@purdue.edu)
 =#

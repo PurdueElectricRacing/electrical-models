@@ -33,12 +33,8 @@ Multiple Faults:
 We used the isoSPI model to catch a bug in our filtering circuit:
 ![isoSPI](figures/isoSPI_bad_RC.png)
 
-## Battery Sizing
-LV battery sizing:
-![per26_lv_loads](figures/per26_lv_loads.png)
-Runtime: 53.70 minute
-Sustained Total Power: 451.60 W
-Endurance factor of safety: 1.68
+## LV Battery Sizing
+![per27_lv_loads](figures/per27_lv_loads.png)
 
 ## Sensor Modeling
 Thermistor modeling:
